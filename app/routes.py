@@ -20,6 +20,7 @@ from app.responses import (
 )
 
 @app.route('/login', methods=['POST'])
+@app.route('/api/login', methods=['POST'])
 def login():
   request_data = request.get_json()
 
@@ -49,6 +50,7 @@ def login():
   
 
 @app.route('/projects', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/api/projects', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @check_token
 def projects():
   if request.method == 'GET':
@@ -67,6 +69,7 @@ def projects():
 
 
 @app.route('/categories', methods=['GET'])
+@app.route('/api/categories', methods=['GET'])
 def categories():
   return json.dumps({
     'success': True,
@@ -75,6 +78,7 @@ def categories():
 
 
 @app.route('/types', methods=['GET'])
+@app.route('/api/types', methods=['GET'])
 def types():
   return json.dumps({
     'success': True,
@@ -82,12 +86,14 @@ def types():
   })
 
 @app.route('/colors', methods=['GET'])
+@app.route('/api/colors', methods=['GET'])
 def colors():
   return json.dumps({
     'success': True,
     'data': Project.get_all_colors()
   })
 
+@app.route('/api/is_authed', methods=['POST'])
 @app.route('/is_authed', methods=['POST'])
 @check_token
 def is_authed():
@@ -95,6 +101,7 @@ def is_authed():
     'success': True
   })
 
+@app.route('/api/images/<filename>')
 @app.route('/images/<filename>')
 def get_image(filename):
   directory = os.environ.get('IMAGES_STATIC_PATH') or os.path.join(basedir, 'images')
